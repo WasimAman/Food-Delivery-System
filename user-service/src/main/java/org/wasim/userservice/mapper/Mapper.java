@@ -95,6 +95,8 @@ public class Mapper {
         userSummaryDto.setId(user.getId());
         userSummaryDto.setEmail(user.getEmail());
         userSummaryDto.setName(user.getName());
+
+        System.out.println(userSummaryDto);
         return userSummaryDto;
     }
 }

@@ -51,7 +51,7 @@ public class OrderService {
         // ================================
         UserSummaryDto userSummary =
                 userServiceClient.getUserSummary(userId);
-
+        System.out.println("User summary: "+ userSummary);
         if (userSummary == null) {
             throw new RuntimeException("User not found");
         }
@@ -206,9 +206,24 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()-> new OrderNotFoundException("Order not found with id: "+orderId));
 
-        OrderResponseDto orderResponseDto = Mapper.toOrderResponseDto(order);
+        UserSummaryDto userSummary =
+                userServiceClient.getUserSummary(order.getUserId());
+        System.out.println("User summary: "+ userSummary);
+        if (userSummary == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        RestaurantSummaryDto restaurantSummary =
+                restaurantServiceClient.getRestaurantSummary(order.getRestaurantId());
+
+        if (restaurantSummary == null) {
+            throw new RuntimeException("Restaurant not found");
+        }
+        OrderResponseDto orderResponseDto = getOrderResponseDto(order,userSummary,restaurantSummary);
         return new ApiResponse("Order fetched successfully!",orderResponseDto);
     }
+
+
 
     public ApiResponse getUserAllOrders(String userId) {
         List<OrderResponseDto> responseDtos = new ArrayList<>();
