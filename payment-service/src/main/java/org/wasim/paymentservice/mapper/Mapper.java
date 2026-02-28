@@ -3,15 +3,15 @@ package org.wasim.paymentservice.mapper;
 
 import org.wasim.paymentservice.entity.Payment;
 import org.wasim.paymentservice.entity.PaymentStatus;
-import org.wasim.paymentservice.kafka.OrderConfirmation;
+import org.wasim.paymentservice.kafka.OrderPlacedDto;
 
 import java.time.LocalDateTime;
 
 public class Mapper {
-    public static Payment toPaymentModel(OrderConfirmation orderConfirmation) {
+    public static Payment toPaymentModel(OrderPlacedDto orderPlaced) {
         Payment payment = new Payment();
-        payment.setOrderId(orderConfirmation.getOrderId());
-        payment.setAmount(orderConfirmation.getTotalAmount());
+        payment.setOrderId(orderPlaced.getOrderId());
+        payment.setAmount(orderPlaced.getTotalAmount());
         payment.setPaymentTime(LocalDateTime.now());
         payment.setStatus(PaymentStatus.PENDING);
         payment.setTransactionId(null);

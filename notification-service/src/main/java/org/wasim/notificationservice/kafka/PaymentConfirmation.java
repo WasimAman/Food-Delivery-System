@@ -1,4 +1,4 @@
-package org.wasim.paymentservice.kafka;
+package org.wasim.notificationservice.kafka;
 
 
 import lombok.AllArgsConstructor;

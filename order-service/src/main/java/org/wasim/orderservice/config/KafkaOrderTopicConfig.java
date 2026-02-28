@@ -9,7 +9,12 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaOrderTopicConfig {
 
     @Bean
-    public NewTopic orderTopic(){
-        return new NewTopic("order-topic",3,(short) 1);
+    public NewTopic orderPlacedTopic(){
+        return new NewTopic("order-placed",3,(short) 1);
+    }
+
+    @Bean
+    public NewTopic orderConfirmationTopic(){
+        return new NewTopic("order-confirmed",3,(short) 1);
     }
 }

@@ -16,6 +16,6 @@ public class PaymentProducer {
 
     public void sendPaymentConfirmation(PaymentConfirmation paymentConfirmation) {
         System.out.println("sending payment confirmation message from kafka!");
-        kafkaTemplate.send("payment-topic", paymentConfirmation);
+        kafkaTemplate.send("payment-success", paymentConfirmation);
     }
 }

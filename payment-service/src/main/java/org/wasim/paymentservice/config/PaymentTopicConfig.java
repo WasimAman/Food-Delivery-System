@@ -9,6 +9,6 @@ public class PaymentTopicConfig {
 
     @Bean
     public NewTopic createPaymentTopic(){
-        return new NewTopic("payment-topic",3,(short) 1);
+        return new NewTopic("payment-success",3,(short) 1);
     }
 }

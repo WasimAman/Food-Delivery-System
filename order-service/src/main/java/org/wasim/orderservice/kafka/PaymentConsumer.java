@@ -13,8 +13,9 @@ import org.wasim.orderservice.repository.OrderRepository;
 public class PaymentConsumer {
 
     private final OrderRepository orderRepository;
+    private final OrderConfirmedProducer orderConfirmedProducer;
 
-    @KafkaListener(topics = "payment-topic", groupId = "payment-group")
+    @KafkaListener(topics = "payment-success", groupId = "payment-group")
     public void listenPaymentConfirmation(PaymentConfirmation confirmation) {
         System.out.println("Consuming payment confirmation message from kafka!");
         Order order = orderRepository
@@ -23,6 +24,13 @@ public class PaymentConsumer {
 
         if (confirmation.isSuccess()) {
             order.setStatus(OrderStatus.CONFIRMED);
+            orderConfirmedProducer.sendOrderCreatedConfirmation(
+                    new OrderConfirmation(
+                            order.getId(),
+                            order.getTotalAmount(),
+                            confirmation.getEmail()
+                    )
+            );
         } else {
             order.setStatus(OrderStatus.CANCELLED);
         }

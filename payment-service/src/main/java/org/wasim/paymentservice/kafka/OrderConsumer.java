@@ -15,10 +15,10 @@ public class OrderConsumer {
     private final PaymentRepository paymentRepository;
     private final PaymentProducer paymentProducer;
 
-    @KafkaListener(topics = "order-topic",groupId = "order-group")
-    public void listenOrderConfirmation(OrderConfirmation orderConfirmation){
-        System.out.println("Consuming order confirmation message from kafka!");
-         Payment payment = Mapper.toPaymentModel(orderConfirmation);
+    @KafkaListener(topics = "order-placed",groupId = "order-group")
+    public void listenOrderConfirmation(OrderPlacedDto orderPlaced){
+        System.out.println("Consuming order placed message from kafka!");
+         Payment payment = Mapper.toPaymentModel(orderPlaced);
          Payment savedPayment = paymentRepository.save(payment);
 
          // here start payment and gey the transection id......
@@ -33,7 +33,8 @@ public class OrderConsumer {
         paymentProducer.sendPaymentConfirmation(
                 new PaymentConfirmation(
                         savedPayment.getOrderId(),
-                        true
+                        true,
+                        orderPlaced.getEmail()
                 )
         );
     }

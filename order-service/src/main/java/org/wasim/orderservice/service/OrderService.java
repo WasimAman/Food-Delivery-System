@@ -13,7 +13,7 @@ import org.wasim.orderservice.entity.Order;
 import org.wasim.orderservice.entity.OrderItem;
 import org.wasim.orderservice.entity.OrderStatus;
 import org.wasim.orderservice.exception.OrderNotFoundException;
-import org.wasim.orderservice.kafka.OrderConfirmation;
+import org.wasim.orderservice.kafka.OrderPlacedDto;
 import org.wasim.orderservice.kafka.OrderProducer;
 import org.wasim.orderservice.mapper.Mapper;
 import org.wasim.orderservice.repository.OrderItemRepository;
@@ -157,13 +157,13 @@ public class OrderService {
         // ================================
         // 🔟 Kafka Event
         // ================================
-        OrderConfirmation event = new OrderConfirmation();
+        OrderPlacedDto event = new OrderPlacedDto();
         event.setOrderId(savedOrder.getId());
         event.setUserId(savedOrder.getUserId());
         event.setRestaurantId(savedOrder.getRestaurantId());
         event.setTotalAmount(savedOrder.getTotalAmount());
-
-        orderProducer.sendOrderConfirmation(event);
+        event.setEmail(userSummary.getEmail());
+        orderProducer.sendOrderPlacedEvent(event);
 
         // ================================
         // 1️⃣1️⃣ Build Response
@@ -171,7 +171,7 @@ public class OrderService {
         OrderResponseDto responseDto = getOrderResponseDto(savedOrder, userSummary, restaurantSummary);
 
         return new ApiResponse(
-                "Order created successfully. Waiting for payment.",
+                "Order placed successfully. Waiting for payment.",
                 responseDto
         );
     }

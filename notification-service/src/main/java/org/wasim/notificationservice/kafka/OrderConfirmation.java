@@ -1,12 +1,8 @@
-package org.wasim.orderservice.kafka;
+package org.wasim.notificationservice.kafka;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class OrderConfirmation {
     private String orderId;
     private double totalAmount;

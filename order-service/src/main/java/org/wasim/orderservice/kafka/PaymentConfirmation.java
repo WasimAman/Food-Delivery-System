@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PaymentConfirmation {
     private String orderId;
     private boolean isSuccess;
+    private String email;
 }

@@ -1,10 +1,11 @@
-package org.wasim.paymentservice.kafka;
+package org.wasim.orderservice.kafka;
 import lombok.Data;
 
 @Data
-public class OrderConfirmation {
+public class OrderPlacedDto {
     private String orderId;
     private String userId;
     private String restaurantId;
     private double totalAmount;
+    private String email;
 }
